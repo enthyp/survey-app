@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#4876FF</color> <!-- royalblue1 -->
+    <color name="colorPrimaryDark">#436EEE</color> <!-- royalblue2 -->
+    <color name="colorAccent">#63B8FF</color> <!-- steelblue1 -->
+</resources>

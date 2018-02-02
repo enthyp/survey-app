@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Survey</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="create_survey">Create survey</string>
+    <string name="add_survey">Add survey</string>
+    <string name="my_surveys">My surveys</string>
+
+    <string name="surveys">Surveys</string>
+    <string name="forms">Forms</string>
+    <string name="results">Results</string>
+    <string name="settings">Settings</string>
+    <string name="help">Help and feedback</string>
+
+    <string name="other">Other</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="blank_feed">Feed would go here</string>
+    <string name="blank_notifications">Notifications would go here</string>
+</resources>

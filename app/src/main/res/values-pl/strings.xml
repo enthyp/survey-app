@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Survey</string>
+    <string name="action_settings">Ustawienia</string>
+    <string name="add_survey">Dodaj ankietę</string>
+    <string name="create_survey">Utwórz ankietę</string>
+    <string name="my_surveys">Moje ankiety</string>
+    <string name="navigation_drawer_close">Zamknij szufladę nawigacyjną</string>
+    <string name="navigation_drawer_open">Otwórz szufladę nawigacyjną</string>
+    <string name="forms">Formularze</string>
+    <string name="help">Pomoc i opinie</string>
+    <string name="results">Wyniki</string>
+    <string name="settings">Ustawienia</string>
+    <string name="surveys">Ankiety</string>
+    <string name="other">Inne</string>
+    <string name="blank_feed">Tu będzie ściana</string>
+    <string name="blank_notifications">Tu będą powiadomienia</string>
+</resources>
