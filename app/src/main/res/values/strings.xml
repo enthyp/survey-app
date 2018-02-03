@@ -27,5 +27,7 @@
 
     <!-- Create Form Activity -->
     <string name="add_question">+ ADD QUESTION</string>
+    <string name="form_title">Title</string>
+    <string name="form_description">Description</string>
     <string name="save_form">SAVE</string>
 </resources>

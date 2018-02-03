@@ -17,4 +17,6 @@
     <string name="search_hint">Szukaj</string>
     <string name="add_question">+ DODAJ PYTANIE</string>
     <string name="save_form">ZAPISZ</string>
+    <string name="form_description">Tytuł</string>
+    <string name="form_title">Opis</string>
 </resources>
