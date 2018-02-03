@@ -3,9 +3,9 @@ package com.hfad.survey;
 import android.app.ActionBar;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -24,6 +24,9 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         NotificationsFragment.OnFragmentInteractionListener,
         FeedFragment.OnFragmentInteractionListener {
+
+    // this allows us to hide searchview icon without delay
+    public static Menu customMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +50,23 @@ public class MainActivity extends AppCompatActivity
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_tabs_home_white_24dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_tabs_notifications_white_24dp);
 
-        //
+        // set listener for page changes to hide searchview icon without delay
+
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                if(position == 1) {
+                    customMenu.getItem(0).setVisible(false);
+                }
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(MainActivity.this, CreateFormActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -77,14 +89,6 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-
-        return true;
-    } */
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -108,7 +112,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_surveys) {
-            // Handle the camera action
+
         } else if (id == R.id.nav_forms) {
 
         } else if (id == R.id.nav_results) {

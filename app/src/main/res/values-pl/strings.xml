@@ -15,4 +15,6 @@
     <string name="blank_feed">Tu będzie ściana</string>
     <string name="blank_notifications">Tu będą powiadomienia</string>
     <string name="search_hint">Szukaj</string>
+    <string name="add_question">+ DODAJ PYTANIE</string>
+    <string name="save_form">ZAPISZ</string>
 </resources>

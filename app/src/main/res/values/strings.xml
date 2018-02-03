@@ -3,11 +3,13 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_create_form">CreateFormActivity</string>
 
     <string name="create_survey">Create survey</string>
     <string name="add_survey">Add survey</string>
     <string name="my_surveys">My surveys</string>
 
+    <!-- Navigation Drawer Menu -->
     <string name="surveys">Surveys</string>
     <string name="forms">Forms</string>
     <string name="results">Results</string>
@@ -16,8 +18,14 @@
 
     <string name="other">Other</string>
 
+    <!-- App Bar Menu -->
     <string name="search_hint">Search</string>
 
+    <!-- Main Activity -->
     <string name="blank_feed">Feed would go here</string>
     <string name="blank_notifications">Notifications would go here</string>
+
+    <!-- Create Form Activity -->
+    <string name="add_question">+ ADD QUESTION</string>
+    <string name="save_form">SAVE</string>
 </resources>
