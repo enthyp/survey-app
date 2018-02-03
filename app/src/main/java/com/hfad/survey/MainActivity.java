@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                if(position == 1) {
+                if(position == 1 && customMenu.size() != 0) {
                     customMenu.getItem(0).setVisible(false);
                 }
             }
