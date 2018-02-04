@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -66,6 +67,14 @@ public class CreateFormActivity extends AppCompatActivity {
             }
         });
 
+        // set onClick method for Delete Question ImageButton
+        final ImageButton deleteQuestionButton = cardView.findViewById(R.id.delete_question_button);
+        deleteQuestionButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                onDeleteQuestion(v);
+            }
+        });
+
         // add this QuestionCard to the QuestionList
         QuestionListLinearLayout.addView(cardView, QuestionListLinearLayout.getChildCount());
 
@@ -88,8 +97,17 @@ public class CreateFormActivity extends AppCompatActivity {
                 }).show();*/
     }
 
+    public void onDeleteQuestion(View v) {
+        // get the parent Cardview and its parent LinearLayout
+        ViewGroup parentCardView = (ViewGroup)(v.getParent()).getParent();
+        ViewGroup parentLinearLayout = (ViewGroup)parentCardView.getParent();
+
+        // delete the parentCardview
+        parentLinearLayout.removeView((View)parentCardView);
+    }
+
     public void onAddOption(View v) {
-        // get the parent CardView!
+        // get the parent CardView
         ViewGroup parentCardView = (ViewGroup)v.getParent();
 
         // inflate the QuestionCardRow View
@@ -105,7 +123,7 @@ public class CreateFormActivity extends AppCompatActivity {
         });
 
         // add RowView to the CardView
-        parentCardView.addView(rowView, parentCardView.getChildCount() - 1);
+        parentCardView.addView(rowView, parentCardView.getChildCount() - 2);
     }
 
     public void onDeleteOption(View v) {
@@ -114,7 +132,7 @@ public class CreateFormActivity extends AppCompatActivity {
         ViewGroup parentCardView = (ViewGroup)parentRowView.getParent();
 
         // remove given RowView from parent CardView
-        parentCardView.removeView((View)parentRowView);
+        parentCardView.removeView(parentRowView);
     }
 
     @Override

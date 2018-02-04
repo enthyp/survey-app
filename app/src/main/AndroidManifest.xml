@@ -29,7 +29,8 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".MainActivity"
             android:windowSoftInputMode="stateHidden"
-            >
+            android:screenOrientation="portrait">
+            <!-- TODO: CREATE VIEWMODEL TO SAVE VIEW HIERARCHY ON ROTATION!!! -->
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
