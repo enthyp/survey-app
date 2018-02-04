@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.Toast;
@@ -57,7 +58,7 @@ public class CreateFormActivity extends AppCompatActivity {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View cardView = inflater.inflate(R.layout.question_card, null);
 
-        // set onClick method for Add Option button
+        // set onClick method for Add Option Button
         final Button addOptionButton = cardView.findViewById(R.id.add_option_button);
         addOptionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -95,7 +96,25 @@ public class CreateFormActivity extends AppCompatActivity {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View rowView = inflater.inflate(R.layout.question_card_row, null);
 
+        // set onClick method for Delete ImageButton
+        final ImageButton deleteOptionButton = rowView.findViewById(R.id.delete_option_button);
+        deleteOptionButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                onDeleteOption(v);
+            }
+        });
+
+        // add RowView to the CardView
         parentCardView.addView(rowView, parentCardView.getChildCount() - 1);
+    }
+
+    public void onDeleteOption(View v) {
+        // get both parent RowView and its parent CardView
+        ViewGroup parentRowView = (ViewGroup)v.getParent();
+        ViewGroup parentCardView = (ViewGroup)parentRowView.getParent();
+
+        // remove given RowView from parent CardView
+        parentCardView.removeView((View)parentRowView);
     }
 
     @Override
