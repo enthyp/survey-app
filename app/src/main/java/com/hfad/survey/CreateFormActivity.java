@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -52,9 +53,22 @@ public class CreateFormActivity extends AppCompatActivity {
     }
 
     public void onAddQuestion(View v) {
+        // inflate the QuestionCard View
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View cardView = inflater.inflate(R.layout.question_card, null);
-        QuestionListLinearLayout.addView(cardView, QuestionListLinearLayout.getChildCount() - 1);
+
+        // set onClick method for Add Option button
+        final Button addOptionButton = cardView.findViewById(R.id.add_option_button);
+        addOptionButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                onAddOption(v);
+            }
+        });
+
+        // add this QuestionCard to the QuestionList
+        QuestionListLinearLayout.addView(cardView, QuestionListLinearLayout.getChildCount());
+
+
 
         /*String option1 = getResources().getString(R.string.multiple_choice);
         String option2 = getResources().getString(R.string.checkboxes);
@@ -71,6 +85,17 @@ public class CreateFormActivity extends AppCompatActivity {
                         Toast.makeText(CreateFormActivity.this, "Item Selected: " + item, Toast.LENGTH_SHORT).show();
                     }
                 }).show();*/
+    }
+
+    public void onAddOption(View v) {
+        // get the parent CardView!
+        ViewGroup parentCardView = (ViewGroup)v.getParent();
+
+        // inflate the QuestionCardRow View
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View rowView = inflater.inflate(R.layout.question_card_row, null);
+
+        parentCardView.addView(rowView, parentCardView.getChildCount() - 1);
     }
 
     @Override
