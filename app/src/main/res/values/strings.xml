@@ -26,8 +26,21 @@
     <string name="blank_notifications">Notifications would go here</string>
 
     <!-- Create Form Activity -->
-    <string name="add_question">+ ADD QUESTION</string>
+    <string name="save_form">SAVE</string>
+
     <string name="form_title">Title</string>
     <string name="form_description">Description</string>
-    <string name="save_form">SAVE</string>
+    <string name="multiple_choice">Multiple Choice</string>
+    <string name="checkboxes">Checkboxes</string>
+    <string name="dropdown">Dropdown</string>
+
+    <string name="form_question">Question</string>
+    <string name="form_option">Add Option</string>
+    <string name="option_hint">Option</string>
+    <string name="alert_add_question_dialog">Add Question</string>
+
+    <string name="add_question"><b>+ ADD QUESTION</b></string>
+
+    <!-- Other -->
+    <string name="image">Just an x</string>
 </resources>
