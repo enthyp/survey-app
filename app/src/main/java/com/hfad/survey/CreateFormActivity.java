@@ -2,6 +2,7 @@ package com.hfad.survey;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.media.Image;
@@ -21,30 +22,48 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.Toast;
 
+import com.hfad.survey.db.entity.SurveyEntity;
+import com.hfad.survey.viewmodel.AddSurveyViewModel;
+import com.hfad.survey.viewmodel.SurveyListViewModel;
+
+import java.util.Calendar;
+
 public class CreateFormActivity extends AppCompatActivity {
 
+    private EditText title;
+
+    private EditText description;
+
     private LinearLayout QuestionListLinearLayout;
+
+    private AddSurveyViewModel addSurveyViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_form);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // create ViewModel instance
+        addSurveyViewModel = ViewModelProviders.of(this).get(AddSurveyViewModel.class);
 
         // add Up button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        getSupportActionBar().setTitle(getString(R.string.create_form_title));
         /*// prepare Add Question button for floating context menu
         Button addQuestionButton = (Button)findViewById(R.id.add_question_button);
         registerForContextMenu(addQuestionButton);*/
 
-        QuestionListLinearLayout = (LinearLayout)findViewById(R.id.question_cards);
+        title = findViewById(R.id.edit_text_title);
+        description = findViewById(R.id.edit_text_desc);
+        QuestionListLinearLayout = findViewById(R.id.question_cards);
     }
 
     @Override
@@ -138,7 +157,11 @@ public class CreateFormActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.save_form) {
-            // TERRIFYING THINGS HAPPEN
+            addSurveyViewModel.addSurvey(new SurveyEntity(
+                    title.getText().toString(),
+                    Calendar.getInstance().getTime()
+            ));
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

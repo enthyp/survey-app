@@ -26,6 +26,7 @@
     <string name="blank_notifications">Notifications would go here</string>
 
     <!-- Create Form Activity -->
+    <string name="create_form_title">Create Form</string>
     <string name="save_form">SAVE</string>
 
     <string name="form_title">Title</string>
@@ -41,6 +42,9 @@
 
     <string name="add_question"><b>+ ADD QUESTION</b></string>
 
+    <!-- Forms Activity -->
+    <string name="forms_title">Forms</string>
     <!-- Other -->
     <string name="image">Just an x</string>
+    <string name="title_activity_forms">FormsActivity</string>
 </resources>

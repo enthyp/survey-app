@@ -28,4 +28,7 @@
     <string name="option_hint">Opcja</string>
     <string name="title_activity_create_form">Utwórz formularz</string>
     <string name="image">Po prostu x</string>
+    <string name="create_form_title">Utwórz formularz</string>
+    <string name="title_activity_forms">FormsActivity</string>
+    <string name="forms_title">Formularze</string>
 </resources>

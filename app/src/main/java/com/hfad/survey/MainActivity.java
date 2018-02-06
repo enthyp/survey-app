@@ -114,7 +114,8 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_surveys) {
 
         } else if (id == R.id.nav_forms) {
-
+            Intent intent = new Intent(MainActivity.this, FormsActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_results) {
 
         } else if (id == R.id.nav_manage) {
