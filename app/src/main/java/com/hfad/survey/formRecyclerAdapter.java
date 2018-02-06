@@ -1,14 +1,17 @@
 package com.hfad.survey;
 
+import android.media.Image;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.hfad.survey.db.entity.SurveyEntity;
+import com.hfad.survey.viewmodel.SurveyListViewModel;
 
 import org.w3c.dom.Text;
 
@@ -24,15 +27,18 @@ import java.util.List;
 class FormRecyclerAdapter extends RecyclerView.Adapter<FormRecyclerAdapter.FormViewHolder> {
 
     private List<SurveyEntity> forms;
+    private View.OnClickListener clickListener;
 
-    public FormRecyclerAdapter(List<SurveyEntity> forms) {
+    public FormRecyclerAdapter(List<SurveyEntity> forms, View.OnClickListener clickListener) {
         this.forms = forms;
+        this.clickListener = clickListener;
     }
 
     @Override
     public FormViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.form_card, parent, false);
         FormViewHolder fv = new FormViewHolder(v);
+
         return fv;
     }
 
@@ -41,9 +47,12 @@ class FormRecyclerAdapter extends RecyclerView.Adapter<FormRecyclerAdapter.FormV
         SurveyEntity surveyEntity = forms.get(position);
         holder.formTitle.setText(surveyEntity.getSurveyTitle());
 
-        Format formatter = new SimpleDateFormat("dd-MM-yyyy");
+        Format formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm");
         String date = formatter.format(surveyEntity.getSurveyDate());
-        holder.formDate.setText(date);
+        holder.formDate.append(date);
+
+        holder.deleteButton.setTag(surveyEntity);
+        holder.deleteButton.setOnClickListener(clickListener);
     }
 
     @Override
@@ -65,6 +74,7 @@ class FormRecyclerAdapter extends RecyclerView.Adapter<FormRecyclerAdapter.FormV
         CardView cv;
         TextView formTitle;
         TextView formDate;
+        ImageButton deleteButton;
 
         FormViewHolder(View itemView) {
             super(itemView);
@@ -72,6 +82,7 @@ class FormRecyclerAdapter extends RecyclerView.Adapter<FormRecyclerAdapter.FormV
             cv = itemView.findViewById(R.id.cv);
             formDate = itemView.findViewById(R.id.form_date);
             formTitle = itemView.findViewById(R.id.form_title);
+            deleteButton = itemView.findViewById(R.id.delete_form_button);
         }
     }
 }

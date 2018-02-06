@@ -21,7 +21,7 @@ import com.hfad.survey.viewmodel.SurveyListViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FormsActivity extends AppCompatActivity {
+public class FormsActivity extends AppCompatActivity implements View.OnClickListener {
 
     RecyclerView formsRecyclerView;
     FormRecyclerAdapter formsRecyclerViewAdapter;
@@ -43,7 +43,7 @@ public class FormsActivity extends AppCompatActivity {
         LinearLayoutManager llManager = new LinearLayoutManager(this);
         formsRecyclerView.setLayoutManager(llManager);
 
-        formsRecyclerViewAdapter = new FormRecyclerAdapter(new ArrayList<SurveyEntity>());
+        formsRecyclerViewAdapter = new FormRecyclerAdapter(new ArrayList<SurveyEntity>(), this);
         formsRecyclerView.setAdapter(formsRecyclerViewAdapter);
 
         viewModel = ViewModelProviders.of(this).get(SurveyListViewModel.class);
@@ -66,4 +66,11 @@ public class FormsActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.delete_form_button) {
+            SurveyEntity surveyEntity = (SurveyEntity)v.getTag();
+            viewModel.deleteSurvey(surveyEntity);
+        }
+    }
 }

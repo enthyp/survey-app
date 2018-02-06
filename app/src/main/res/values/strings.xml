@@ -44,6 +44,7 @@
 
     <!-- Forms Activity -->
     <string name="forms_title">Forms</string>
+    <string name="addition_date">Added: </string>
     <!-- Other -->
     <string name="image">Just an x</string>
     <string name="title_activity_forms">FormsActivity</string>

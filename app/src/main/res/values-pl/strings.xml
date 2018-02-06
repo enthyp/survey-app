@@ -31,4 +31,5 @@
     <string name="create_form_title">Utwórz formularz</string>
     <string name="title_activity_forms">FormsActivity</string>
     <string name="forms_title">Formularze</string>
+    <string name="addition_date">"Dodano: "</string>
 </resources>
