@@ -27,7 +27,6 @@
         <TextView
             android:id="@+id/form_date"
             android:textSize="12sp"
-            android:text="@string/addition_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

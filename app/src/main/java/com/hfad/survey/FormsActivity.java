@@ -43,7 +43,7 @@ public class FormsActivity extends AppCompatActivity implements View.OnClickList
         LinearLayoutManager llManager = new LinearLayoutManager(this);
         formsRecyclerView.setLayoutManager(llManager);
 
-        formsRecyclerViewAdapter = new FormRecyclerAdapter(new ArrayList<SurveyEntity>(), this);
+        formsRecyclerViewAdapter = new FormRecyclerAdapter(new ArrayList<SurveyEntity>(), this, this);
         formsRecyclerView.setAdapter(formsRecyclerViewAdapter);
 
         viewModel = ViewModelProviders.of(this).get(SurveyListViewModel.class);

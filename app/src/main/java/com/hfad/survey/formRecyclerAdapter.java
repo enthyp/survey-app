@@ -1,5 +1,6 @@
 package com.hfad.survey;
 
+import android.content.Context;
 import android.media.Image;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
@@ -28,10 +29,12 @@ class FormRecyclerAdapter extends RecyclerView.Adapter<FormRecyclerAdapter.FormV
 
     private List<SurveyEntity> forms;
     private View.OnClickListener clickListener;
+    private Context context;
 
-    public FormRecyclerAdapter(List<SurveyEntity> forms, View.OnClickListener clickListener) {
+    public FormRecyclerAdapter(List<SurveyEntity> forms, View.OnClickListener clickListener, Context context) {
         this.forms = forms;
         this.clickListener = clickListener;
+        this.context = context;
     }
 
     @Override
@@ -47,9 +50,10 @@ class FormRecyclerAdapter extends RecyclerView.Adapter<FormRecyclerAdapter.FormV
         SurveyEntity surveyEntity = forms.get(position);
         holder.formTitle.setText(surveyEntity.getSurveyTitle());
 
-        Format formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+        Format formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
         String date = formatter.format(surveyEntity.getSurveyDate());
-        holder.formDate.append(date);
+        date = context.getResources().getString(R.string.addition_date) + date;
+        holder.formDate.setText(date);
 
         holder.deleteButton.setTag(surveyEntity);
         holder.deleteButton.setOnClickListener(clickListener);
