@@ -5,10 +5,7 @@ import android.app.DialogFragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.media.Image;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -20,17 +17,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.Toast;
 
 import com.hfad.survey.db.entity.SurveyEntity;
 import com.hfad.survey.viewmodel.AddSurveyViewModel;
-import com.hfad.survey.viewmodel.SurveyListViewModel;
 
 import java.util.Calendar;
 
@@ -57,9 +50,6 @@ public class CreateFormActivity extends AppCompatActivity {
         // add Up button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.create_form_title));
-        /*// prepare Add Question button for floating context menu
-        Button addQuestionButton = (Button)findViewById(R.id.add_question_button);
-        registerForContextMenu(addQuestionButton);*/
 
         title = findViewById(R.id.edit_text_title);
         description = findViewById(R.id.edit_text_desc);
@@ -116,13 +106,23 @@ public class CreateFormActivity extends AppCompatActivity {
                 }).show();*/
     }
 
-    public void onDeleteQuestion(View v) {
-        // get the parent Cardview and its parent LinearLayout
-        ViewGroup parentCardView = (ViewGroup)(v.getParent()).getParent();
-        ViewGroup parentLinearLayout = (ViewGroup)parentCardView.getParent();
+    public void onDeleteQuestion(final View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.form_dialog)
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {}
+                })
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // get the parent Cardview and its parent LinearLayout
+                        ViewGroup parentCardView = (ViewGroup)(v.getParent()).getParent();
+                        ViewGroup parentLinearLayout = (ViewGroup)parentCardView.getParent();
 
-        // delete the parentCardview
-        parentLinearLayout.removeView((View)parentCardView);
+                        // delete the parentCardview
+                        parentLinearLayout.removeView((View)parentCardView);
+                    }
+                });
+        builder.show();
     }
 
     public void onAddOption(View v) {

@@ -1,8 +1,6 @@
 package com.hfad.survey;
 
 import android.content.Context;
-import android.media.Image;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,13 +10,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.hfad.survey.db.entity.SurveyEntity;
-import com.hfad.survey.viewmodel.SurveyListViewModel;
 
-import org.w3c.dom.Text;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

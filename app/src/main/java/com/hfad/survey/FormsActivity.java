@@ -1,11 +1,15 @@
 package com.hfad.survey;
 
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -67,10 +71,20 @@ public class FormsActivity extends AppCompatActivity implements View.OnClickList
 
 
     @Override
-    public void onClick(View v) {
+    public void onClick(final View v) {
         if(v.getId() == R.id.delete_form_button) {
-            SurveyEntity surveyEntity = (SurveyEntity)v.getTag();
-            viewModel.deleteSurvey(surveyEntity);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.form_dialog)
+                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {}
+                    })
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            SurveyEntity surveyEntity = (SurveyEntity)v.getTag();
+                            viewModel.deleteSurvey(surveyEntity);
+                        }
+                    });
+            builder.show();
         }
     }
 }

@@ -32,4 +32,7 @@
     <string name="title_activity_forms">FormsActivity</string>
     <string name="forms_title">Formularze</string>
     <string name="addition_date">"Dodano: "</string>
+    <string name="no">Nie</string>
+    <string name="yes">Tak</string>
+    <string name="form_dialog">Czy na pewno chcesz usunąć?</string>
 </resources>

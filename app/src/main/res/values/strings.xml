@@ -43,9 +43,12 @@
     <string name="add_question"><b>+ ADD QUESTION</b></string>
 
     <!-- Forms Activity -->
+    <string name="title_activity_forms">FormsActivity</string>
     <string name="forms_title">Forms</string>
     <string name="addition_date">Added: </string>
     <!-- Other -->
     <string name="image">Just an x</string>
-    <string name="title_activity_forms">FormsActivity</string>
+    <string name="form_dialog">Are you sure you want to delete?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
