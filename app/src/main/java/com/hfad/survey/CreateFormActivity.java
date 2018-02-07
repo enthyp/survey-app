@@ -1,19 +1,16 @@
 package com.hfad.survey;
 
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.view.ContextMenu;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +19,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
+import com.hfad.survey.db.entity.AnswerEntity;
+import com.hfad.survey.db.entity.QuestionEntity;
 import com.hfad.survey.db.entity.SurveyEntity;
 import com.hfad.survey.viewmodel.AddSurveyViewModel;
 
@@ -157,15 +156,48 @@ public class CreateFormActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.save_form) {
-            addSurveyViewModel.addSurvey(new SurveyEntity(
-                    title.getText().toString(),
-                    Calendar.getInstance().getTime()
-            ));
+            onSaveSurvey();
             finish();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    public void onSaveSurvey() {
+        long surveyId = addSurveyViewModel.addSurvey(new SurveyEntity(
+                title.getText().toString(),
+                description.getText().toString(),
+                Calendar.getInstance().getTime()
+        ));
 
+        LinearLayout questionCards = findViewById(R.id.question_cards);
+        for (int i = 0; i < questionCards.getChildCount(); i++) {
+            CardView card = (CardView) questionCards.getChildAt(i);
+
+            EditText question = card.findViewById(R.id.card_question);
+            String content = question.getText().toString();
+
+            if(!content.isEmpty()) {
+                long questionId = addSurveyViewModel.addQuestion(new QuestionEntity(
+                        surveyId, content
+                ));
+
+                LinearLayout answers = card.findViewById(R.id.card_linear_layout);
+
+                for (int j = 2; j < answers.getChildCount(); j++) {
+                    View child = answers.getChildAt(j);
+                    if (child.getId() == R.id.card_row_linear_layout) {
+                        EditText option = child.findViewById(R.id.card_row_option);
+                        content = option.getText().toString();
+
+                        if(!content.isEmpty()) {
+                            addSurveyViewModel.addAnswer(new AnswerEntity(
+                                    questionId, content
+                            ));
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

@@ -7,26 +7,23 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import com.hfad.survey.db.entity.SurveyEntity;
+import com.hfad.survey.db.entity.AnswerEntity;
 
 import java.util.List;
 
 /**
- * Created by jlanecki on 06.02.18.
+ * Created by jlanecki on 07.02.18.
  */
 
 @Dao
-public interface SurveyDao {
+public interface AnswerDao {
 
-    @Query("SELECT * FROM surveys")
-    LiveData<List<SurveyEntity>> loadAllSurveys();
-
-    @Query("SELECT * FROM surveys WHERE id = :surveyId")
-    LiveData<SurveyEntity> loadSurvey(int surveyId);
+    @Query("SELECT * FROM answers WHERE question_id = :questionId")
+    List<AnswerEntity> loadAnswers(int questionId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long insertSurvey(SurveyEntity survey);
+    void insertAnswer(AnswerEntity question);
 
     @Delete
-    void deleteSurvey(SurveyEntity survey);
+    void deleteAnswer(AnswerEntity question);
 }

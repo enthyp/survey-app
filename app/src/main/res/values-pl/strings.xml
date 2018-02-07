@@ -35,4 +35,6 @@
     <string name="no">Nie</string>
     <string name="yes">Tak</string>
     <string name="form_dialog">Czy na pewno chcesz usunąć?</string>
+    <string name="open">Otwórz</string>
+    <string name="form_header">Formularz</string>
 </resources>

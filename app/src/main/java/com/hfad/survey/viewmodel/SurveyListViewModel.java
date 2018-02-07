@@ -28,7 +28,6 @@ public class SurveyListViewModel extends AndroidViewModel {
         SurveyList = appDatabase.SurveyDao().loadAllSurveys();
     }
 
-
     public LiveData<List<SurveyEntity>> loadSurveyList() {
         return SurveyList;
     }

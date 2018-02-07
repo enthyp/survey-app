@@ -41,7 +41,13 @@
             android:name=".FormsActivity"
             android:label="@string/title_activity_forms"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".OpenFormActivity"
+            android:label="@string/title_activity_open_form"
+            android:parentActivityName=".FormsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

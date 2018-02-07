@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -50,6 +51,9 @@ class FormRecyclerAdapter extends RecyclerView.Adapter<FormRecyclerAdapter.FormV
         date = context.getResources().getString(R.string.addition_date) + date;
         holder.formDate.setText(date);
 
+        holder.openSurveyButton.setTag(surveyEntity);
+        holder.openSurveyButton.setOnClickListener(clickListener);
+
         holder.deleteButton.setTag(surveyEntity);
         holder.deleteButton.setOnClickListener(clickListener);
     }
@@ -73,6 +77,7 @@ class FormRecyclerAdapter extends RecyclerView.Adapter<FormRecyclerAdapter.FormV
         CardView cv;
         TextView formTitle;
         TextView formDate;
+        Button openSurveyButton;
         ImageButton deleteButton;
 
         FormViewHolder(View itemView) {
@@ -81,6 +86,7 @@ class FormRecyclerAdapter extends RecyclerView.Adapter<FormRecyclerAdapter.FormV
             cv = itemView.findViewById(R.id.cv);
             formDate = itemView.findViewById(R.id.form_date);
             formTitle = itemView.findViewById(R.id.form_title);
+            openSurveyButton = itemView.findViewById(R.id.open_survey_button);
             deleteButton = itemView.findViewById(R.id.delete_form_button);
         }
     }

@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -85,6 +86,17 @@ public class FormsActivity extends AppCompatActivity implements View.OnClickList
                         }
                     });
             builder.show();
+        } else if (v.getId() == R.id.open_survey_button) {
+            SurveyEntity surveyEntity = (SurveyEntity)v.getTag();
+            long id = surveyEntity.getId();
+            String title = surveyEntity.getSurveyTitle();
+            String description = surveyEntity.getSurveyDescription();
+
+            Intent intent = new Intent(this, OpenFormActivity.class);
+            intent.putExtra("survey_id", id);
+            intent.putExtra("survey_title", title);
+            intent.putExtra("survey_description", description);
+            startActivity(intent);
         }
     }
 }

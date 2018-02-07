@@ -3,9 +3,10 @@ package com.hfad.survey.viewmodel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 
 import com.hfad.survey.db.AppDatabase;
+import com.hfad.survey.db.entity.AnswerEntity;
+import com.hfad.survey.db.entity.QuestionEntity;
 import com.hfad.survey.db.entity.SurveyEntity;
 
 /**
@@ -22,21 +23,31 @@ public class AddSurveyViewModel extends AndroidViewModel {
         appDatabase = AppDatabase.getDatabase(this.getApplication());
     }
 
-    public void addSurvey(final SurveyEntity SurveyEntity) {
-        new AddSurveyViewModel.addAsyncTask(appDatabase).execute(SurveyEntity);
+    public long addSurvey(final SurveyEntity SurveyEntity) {
+        return appDatabase.SurveyDao().insertSurvey(SurveyEntity);
     }
 
-    private static class addAsyncTask extends AsyncTask<SurveyEntity, Void, Void> {
+
+    public long addQuestion(final QuestionEntity QuestionEntity) {
+        return appDatabase.QuestionDao().insertQuestion(QuestionEntity);
+    }
+
+
+    public void addAnswer(final AnswerEntity AnswerEntity) {
+        new AddSurveyViewModel.addAnswerAsyncTask(appDatabase).execute(AnswerEntity);
+    }
+
+    private static class addAnswerAsyncTask extends AsyncTask<AnswerEntity, Void, Void> {
 
         private AppDatabase db;
 
-        addAsyncTask(AppDatabase appDatabase) {
+        addAnswerAsyncTask(AppDatabase appDatabase) {
             db = appDatabase;
         }
 
         @Override
-        protected Void doInBackground(final SurveyEntity... params) {
-            db.SurveyDao().insertSurvey(params[0]);
+        protected Void doInBackground(final AnswerEntity... params) {
+            db.AnswerDao().insertAnswer(params[0]);
             return null;
         }
 

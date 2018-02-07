@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * Created by jlanecki on 06.02.18.
  */
-@Entity (tableName = "surveys")
+@Entity(tableName = "surveys")
 public class SurveyEntity {
 
     @PrimaryKey(autoGenerate = true)
@@ -21,11 +21,14 @@ public class SurveyEntity {
     @ColumnInfo(name = "survey_date")
     private Date surveyDate;
 
+    @ColumnInfo(name = "survey_description")
+    private String surveyDescription;
 
     public SurveyEntity() {}
 
-    public SurveyEntity(String surveyTitle, Date surveyDate) {
+    public SurveyEntity(String surveyTitle, String surveyDescription, Date surveyDate) {
         this.surveyTitle = surveyTitle;
+        this.surveyDescription = surveyDescription;
         this.surveyDate = surveyDate;
     }
 
@@ -51,5 +54,13 @@ public class SurveyEntity {
 
     public void setSurveyDate(Date surveyDate) {
         this.surveyDate = surveyDate;
+    }
+
+    public String getSurveyDescription() {
+        return surveyDescription;
+    }
+
+    public void setSurveyDescription(String surveyDescription) {
+        this.surveyDescription = surveyDescription;
     }
 }
