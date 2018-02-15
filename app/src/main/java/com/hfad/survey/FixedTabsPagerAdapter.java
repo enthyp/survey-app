@@ -4,6 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.hfad.survey.feed.FeedFragment;
+import com.hfad.survey.notifications.NotificationsFragment;
+
 /**
  * Created by jlanecki on 02.02.18.
  */
@@ -11,7 +14,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 public class FixedTabsPagerAdapter extends FragmentPagerAdapter {
 
 
-    public FixedTabsPagerAdapter(FragmentManager fm) {
+    FixedTabsPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 

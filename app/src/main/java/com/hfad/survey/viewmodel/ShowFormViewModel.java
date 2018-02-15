@@ -3,11 +3,11 @@ package com.hfad.survey.viewmodel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.util.Log;
 
-import com.hfad.survey.db.AppDatabase;
-import com.hfad.survey.db.entity.AnswerEntity;
-import com.hfad.survey.db.entity.QuestionEntity;
+import com.hfad.survey.data.db.AppDatabase;
+import com.hfad.survey.data.db.DataRepository;
+import com.hfad.survey.data.db.entity.AnswerEntity;
+import com.hfad.survey.data.db.entity.QuestionEntity;
 
 import java.util.List;
 
@@ -17,23 +17,16 @@ import java.util.List;
 
 public class ShowFormViewModel extends AndroidViewModel {
 
-    private List<QuestionEntity> QuestionList;
 
-    private AppDatabase appDatabase;
+    private final DataRepository dataRepository;
 
-    public ShowFormViewModel(Application application) {
+    public ShowFormViewModel(Application application, DataRepository repository) {
         super(application);
 
-        appDatabase = AppDatabase.getDatabase(this.getApplication());
+        dataRepository = repository;
     }
 
-    public void setId(long id) {
-        QuestionList = appDatabase.QuestionDao().loadQuestions((int)id);
-    }
-
-    public List<QuestionEntity> loadQuestions() { return QuestionList ;}
-
-    public List<AnswerEntity> loadAnswers(int id) {
-        return appDatabase.AnswerDao().loadAnswers(id);
+    public LiveData<List<QuestionAndAllAnswers>> loadQuestionsAndAnswers(long id) {
+        return dataRepository.loadQuestionAndAnswers(id);
     }
 }

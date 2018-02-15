@@ -5,8 +5,9 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 
-import com.hfad.survey.db.AppDatabase;
-import com.hfad.survey.db.entity.SurveyEntity;
+import com.hfad.survey.data.db.AppDatabase;
+import com.hfad.survey.data.db.DataRepository;
+import com.hfad.survey.data.db.entity.SurveyEntity;
 
 import java.util.List;
 
@@ -16,39 +17,21 @@ import java.util.List;
 
 public class SurveyListViewModel extends AndroidViewModel {
 
-    private final LiveData<List<SurveyEntity>> SurveyList;
 
-    private AppDatabase appDatabase;
+    private final DataRepository dataRepository;
 
-    public SurveyListViewModel(Application application) {
+    public SurveyListViewModel(Application application, DataRepository repository) {
         super(application);
 
-        appDatabase = AppDatabase.getDatabase(this.getApplication());
-
-        SurveyList = appDatabase.SurveyDao().loadAllSurveys();
+        dataRepository = repository;
     }
 
     public LiveData<List<SurveyEntity>> loadSurveyList() {
-        return SurveyList;
+        return dataRepository.loadAllSurveys();
     }
 
-    public void deleteSurvey(SurveyEntity SurveyEntity) {
-        new deleteAsyncTask(appDatabase).execute(SurveyEntity);
-    }
-
-    private static class deleteAsyncTask extends AsyncTask<SurveyEntity, Void, Void> {
-
-        private AppDatabase db;
-
-        deleteAsyncTask(AppDatabase appDatabase) {
-            db = appDatabase;
-        }
-
-        @Override
-        protected Void doInBackground(final SurveyEntity... params) {
-            db.SurveyDao().deleteSurvey(params[0]);
-            return null;
-        }
+    public void deleteSurvey(SurveyEntity surveyEntity) {
+        dataRepository.deleteSurvey(surveyEntity);
 
     }
 

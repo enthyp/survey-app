@@ -2,12 +2,12 @@ package com.hfad.survey.viewmodel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
-import android.os.AsyncTask;
 
-import com.hfad.survey.db.AppDatabase;
-import com.hfad.survey.db.entity.AnswerEntity;
-import com.hfad.survey.db.entity.QuestionEntity;
-import com.hfad.survey.db.entity.SurveyEntity;
+import com.hfad.survey.createform.SurveyForm;
+import com.hfad.survey.data.db.DataRepository;
+import com.hfad.survey.data.db.entity.AnswerEntity;
+import com.hfad.survey.data.db.entity.QuestionEntity;
+import com.hfad.survey.data.db.entity.SurveyEntity;
 
 /**
  * Created by jlanecki on 06.02.18.
@@ -15,41 +15,41 @@ import com.hfad.survey.db.entity.SurveyEntity;
 
 public class AddSurveyViewModel extends AndroidViewModel {
 
-    private AppDatabase appDatabase;
 
-    public AddSurveyViewModel(Application application) {
+    private final DataRepository dataRepository;
+
+    public AddSurveyViewModel(Application application, DataRepository repository) {
         super(application);
 
-        appDatabase = AppDatabase.getDatabase(this.getApplication());
+        dataRepository = repository;
     }
 
-    public long addSurvey(final SurveyEntity SurveyEntity) {
-        return appDatabase.SurveyDao().insertSurvey(SurveyEntity);
+    public long addSurvey(final SurveyEntity surveyEntity) {
+        return dataRepository.addSurvey(surveyEntity);
     }
-
 
     public long addQuestion(final QuestionEntity QuestionEntity) {
-        return appDatabase.QuestionDao().insertQuestion(QuestionEntity);
+        return dataRepository.addQuestion(QuestionEntity);
     }
 
-
-    public void addAnswer(final AnswerEntity AnswerEntity) {
-        new AddSurveyViewModel.addAnswerAsyncTask(appDatabase).execute(AnswerEntity);
+    public void addAnswer(final AnswerEntity answerEntity) {
+        dataRepository.addAnswer(answerEntity);
     }
 
-    private static class addAnswerAsyncTask extends AsyncTask<AnswerEntity, Void, Void> {
+    public void addSurvey(SurveyForm surveyForm) {
+        SurveyEntity surveyEntity = new SurveyEntity(surveyForm.getTitle(),
+                surveyForm.getDescription(), surveyForm.getDate());
 
-        private AppDatabase db;
+        long id = this.addSurvey(surveyEntity);
+        for (int i = 0; i < surveyForm.getQuestions().size(); i++) {
+            QuestionEntity questionEntity = new QuestionEntity(id, surveyForm.getQuestions().get(i));
 
-        addAnswerAsyncTask(AppDatabase appDatabase) {
-            db = appDatabase;
+            long questionId = this.addQuestion(questionEntity);
+            for (String answer : surveyForm.getAnswers(i)) {
+                AnswerEntity answerEntity = new AnswerEntity(questionId, answer);
+
+                this.addAnswer(answerEntity);
+            }
         }
-
-        @Override
-        protected Void doInBackground(final AnswerEntity... params) {
-            db.AnswerDao().insertAnswer(params[0]);
-            return null;
-        }
-
     }
 }

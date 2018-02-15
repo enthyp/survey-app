@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.hfad.survey.FormsActivity"
-    tools:showIn="@layout/activity_forms">
+    tools:showIn="@layout/fragment_forms">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/forms_recycler"
