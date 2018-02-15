@@ -19,8 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hfad.survey.createform.CreateFormActivity;
-import com.hfad.survey.feed.FeedFragment;
-import com.hfad.survey.notifications.NotificationsFragment;
 
 public class SurveyFragment extends Fragment {
 
@@ -62,14 +60,13 @@ public class SurveyFragment extends Fragment {
 
         ViewPager viewPager = root.findViewById(R.id.view_pager);
         PagerAdapter pagerAdapter =
-                new FixedTabsPagerAdapter(getFragmentManager());
+                new FixedTabsPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(pagerAdapter);
 
         TabLayout tabLayout = root.findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
 
         // Set tab icons
-
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_tabs_home_white_24dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_tabs_notifications_white_24dp);
 
