@@ -164,9 +164,17 @@ public class CreateFormActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.save_form) {
-            onSaveSurvey();
-            finish();
+        super.onOptionsItemSelected(item);
+        switch(item.getItemId()) {
+            case R.id.save_form:
+                onSaveSurvey();
+                finish();
+                break;
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+                break;
         }
 
         return super.onOptionsItemSelected(item);

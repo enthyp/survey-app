@@ -12,6 +12,7 @@ import com.hfad.survey.data.db.entity.AnswerEntity;
 import com.hfad.survey.data.db.entity.QuestionEntity;
 import com.hfad.survey.data.db.entity.SurveyEntity;
 import com.hfad.survey.viewmodel.QuestionAndAllAnswers;
+import com.hfad.survey.viewmodel.SurveyContents;
 
 import java.util.List;
 
@@ -66,12 +67,7 @@ public class DataRepository {
     }
 
     public void deleteSurvey(final SurveyEntity survey) {
-        appExecutors.diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                database.SurveyDao().deleteSurvey(survey);
-            }
-        });
+        database.SurveyDao().deleteSurvey(survey);
     }
 
     /* AddSurveyViewModel */
@@ -90,7 +86,7 @@ public class DataRepository {
 
     /* ShowFormViewModel */
 
-    public LiveData<List<QuestionAndAllAnswers>> loadQuestionAndAnswers(long id) {
-        return database.QuestionAnswersDao().loadQuestionsAndAnswers((int)id);
+    public LiveData<SurveyContents> loadSurveyContents(long id) {
+        return database.SurveyContentDao().loadSurveyContents((int)id);
     }
 }

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -18,8 +19,8 @@ import com.hfad.survey.ViewModelFactory;
 import com.hfad.survey.data.db.entity.AnswerEntity;
 import com.hfad.survey.viewmodel.QuestionAndAllAnswers;
 import com.hfad.survey.viewmodel.ShowFormViewModel;
+import com.hfad.survey.viewmodel.SurveyContents;
 
-import java.util.List;
 
 public class OpenFormActivity extends AppCompatActivity {
 
@@ -33,7 +34,7 @@ public class OpenFormActivity extends AppCompatActivity {
 
     private LinearLayout QuestionListLinearLayout;
 
-    private List<QuestionAndAllAnswers> questionAnswersList;
+    private SurveyContents formContents;
 
     private ShowFormViewModel viewModel;
 
@@ -44,29 +45,43 @@ public class OpenFormActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Initial setup
         surveyId = getIntent().getLongExtra("survey_id", 0);
-        formTitle = getIntent().getStringExtra("survey_title");
-        formDescription = getIntent().getStringExtra("survey_description");
+        title = findViewById(R.id.form_text_title);
+        description = findViewById(R.id.form_text_desc);
+        QuestionListLinearLayout = findViewById(R.id.question_cards);
 
         // Setup ViewModel
         viewModel = obtainViewModel(this);
 
         // Setup observation
-        viewModel.loadQuestionsAndAnswers(surveyId).observe(this, new Observer<List<QuestionAndAllAnswers>>() {
+        viewModel.loadSurveyContents(surveyId).observe(this, new Observer<SurveyContents>() {
             @Override
-            public void onChanged(@Nullable List<QuestionAndAllAnswers> questionAndAllAnswers) {
-                questionAnswersList = questionAndAllAnswers;
+            public void onChanged(@Nullable SurveyContents surveyContents) {
+                formContents = surveyContents;
                 updateForm();
             }
         });
 
-        title = findViewById(R.id.form_text_title);
-        description = findViewById(R.id.form_text_desc);
-        QuestionListLinearLayout = findViewById(R.id.question_cards);
 
         // add Up button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.form_header));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+                break;
+        }
+
+        return true;
     }
 
     public static ShowFormViewModel obtainViewModel(AppCompatActivity activity) {
@@ -80,10 +95,10 @@ public class OpenFormActivity extends AppCompatActivity {
     }
 
     public void updateForm() {
-        title.setText(formTitle);
-        description.setText(formDescription);
+        title.setText(formContents.survey.getSurveyTitle());
+        description.setText(formContents.survey.getSurveyDescription());
 
-        for (QuestionAndAllAnswers question : questionAnswersList) {
+        for (QuestionAndAllAnswers question : formContents.questionsWithAnswers) {
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final ViewGroup card = (ViewGroup)inflater.inflate(R.layout.form_question_card, null);
 

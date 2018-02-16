@@ -14,9 +14,11 @@ public class ActivityUtil {
 
 
     public static void replaceFragmentInActivity(@NonNull FragmentManager fragmentManager,
-                                                 @NonNull Fragment fragment, int frameId) {
+                                                 @NonNull Fragment fragment, int frameId,
+                                                 String tag) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(frameId, fragment);
+        transaction.replace(frameId, fragment, tag);
+        transaction.addToBackStack(tag);
         transaction.commit();
     }
 }

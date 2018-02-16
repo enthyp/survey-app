@@ -32,7 +32,6 @@ public class SurveyListViewModel extends AndroidViewModel {
 
     public void deleteSurvey(SurveyEntity surveyEntity) {
         dataRepository.deleteSurvey(surveyEntity);
-
     }
 
 }

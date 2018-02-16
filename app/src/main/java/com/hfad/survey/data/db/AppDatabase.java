@@ -10,7 +10,7 @@ import android.content.Context;
 
 import com.hfad.survey.data.db.converter.DateConverter;
 import com.hfad.survey.data.db.dao.AnswerDao;
-import com.hfad.survey.data.db.dao.QuestionAnswersDao;
+import com.hfad.survey.data.db.dao.SurveyContentDao;
 import com.hfad.survey.data.db.dao.QuestionDao;
 import com.hfad.survey.data.db.dao.SurveyDao;
 import com.hfad.survey.data.db.entity.AnswerEntity;
@@ -36,7 +36,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract AnswerDao AnswerDao();
 
-    public abstract QuestionAnswersDao QuestionAnswersDao();
+    public abstract SurveyContentDao SurveyContentDao();
 
     private final MutableLiveData<Boolean> isDatabaseCreated = new MutableLiveData<>();
 

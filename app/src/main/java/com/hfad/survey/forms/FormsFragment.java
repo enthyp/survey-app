@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hfad.survey.BasicApp;
 import com.hfad.survey.R;
 import com.hfad.survey.ViewModelFactory;
 import com.hfad.survey.data.db.entity.SurveyEntity;
@@ -132,21 +133,22 @@ public class FormsFragment extends Fragment implements View.OnClickListener {
                     })
                     .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            SurveyEntity surveyEntity = (SurveyEntity)v.getTag();
-                            viewModel.deleteSurvey(surveyEntity);
+                            final SurveyEntity surveyEntity = (SurveyEntity)v.getTag();
+                            ((BasicApp)getActivity().getApplication()).getAppExecutors().diskIO().execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    viewModel.deleteSurvey(surveyEntity);
+                                }
+                            });
                         }
                     });
             builder.show();
         } else if (v.getId() == R.id.open_survey_button) {
             SurveyEntity surveyEntity = (SurveyEntity)v.getTag();
             long id = surveyEntity.getId();
-            String title = surveyEntity.getSurveyTitle();
-            String description = surveyEntity.getSurveyDescription();
 
             Intent intent = new Intent(getActivity(), OpenFormActivity.class);
             intent.putExtra("survey_id", id);
-            intent.putExtra("survey_title", title);
-            intent.putExtra("survey_description", description);
             startActivity(intent);
         }
     }

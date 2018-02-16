@@ -3,6 +3,7 @@ package com.hfad.survey;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -15,21 +16,35 @@ import com.hfad.survey.util.ActivityUtil;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // Setup the NavigationView
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        final NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setCheckedItem(R.id.nav_surveys);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // Add fragment to the activity
-        SurveyFragment surveyFragment = SurveyFragment.newInstance();
-        ActivityUtil.replaceFragmentInActivity(
-                getSupportFragmentManager(), surveyFragment, R.id.main_content_frame);
+        // Add fragment to the activity if necessary
+        if (savedInstanceState == null) {
+            SurveyFragment surveyFragment = SurveyFragment.newInstance();
+            ActivityUtil.replaceFragmentInActivity(
+                    getSupportFragmentManager(), surveyFragment, R.id.main_content_frame,
+                    Integer.toString(R.id.nav_surveys));
+        }
 
+        // Listen for fragment changes to update Navigation Drawer
+        final FragmentManager fm = getSupportFragmentManager();
+        fm.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                Fragment fragment = fm.findFragmentById(R.id.main_content_frame);
+                NavigationView navigationView = findViewById(R.id.nav_view);
+                navigationView.setCheckedItem(Integer.parseInt(fragment.getTag()));
+            }
+        });
     }
 
     @Override
@@ -50,6 +65,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         Class fragmentClass = null;
+        String fragmentTag = Integer.toString(id);
 
         if (id == R.id.nav_surveys) {
             fragmentClass = SurveyFragment.class;
@@ -66,11 +82,10 @@ public class MainActivity extends AppCompatActivity
         try {
             Fragment newFragment = (Fragment)fragmentClass.newInstance();
             ActivityUtil.replaceFragmentInActivity(
-                    getSupportFragmentManager(), newFragment, R.id.main_content_frame);
+                    getSupportFragmentManager(), newFragment, R.id.main_content_frame, fragmentTag);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setCheckedItem(id);

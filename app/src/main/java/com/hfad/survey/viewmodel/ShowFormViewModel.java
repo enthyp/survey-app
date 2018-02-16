@@ -26,7 +26,7 @@ public class ShowFormViewModel extends AndroidViewModel {
         dataRepository = repository;
     }
 
-    public LiveData<List<QuestionAndAllAnswers>> loadQuestionsAndAnswers(long id) {
-        return dataRepository.loadQuestionAndAnswers(id);
+    public LiveData<SurveyContents> loadSurveyContents(long id) {
+        return dataRepository.loadSurveyContents(id);
     }
 }
