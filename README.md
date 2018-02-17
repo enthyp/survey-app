@@ -1,29 +1,15 @@
-# README #
+# Survey  #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+This is an app that allows user to create and publish surveys, vote and check the results. 
 
-### What is this repository for? ###
+As for now it is basically an MVVM architecture pattern practice project, utilizing Android Architecture Components.
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+### That's what some of it looks like ###
 
-### How do I get set up? ###
+Home screen                     | Create Form screen                 | Browse forms screen
+:------------------------------:|:----------------------------------:|:--------------------------------:
+![screen1](art/home_screen.png) | ![screen2](art/creator_screen.png) | ![screen3](art/forms_screen.png)
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+### Contributions ###
+This is definitely under construction. A couple of functionalities are yet to be implemented.
+However, pull requests and comments about currently available code are most welcome.
