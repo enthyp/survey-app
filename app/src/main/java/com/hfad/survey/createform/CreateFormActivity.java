@@ -2,9 +2,8 @@ package com.hfad.survey.createform;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -21,11 +20,13 @@ import android.widget.LinearLayout;
 import com.hfad.survey.BasicApp;
 import com.hfad.survey.R;
 import com.hfad.survey.ViewModelFactory;
+import com.hfad.survey.util.OnDeleteDialogFragment;
 import com.hfad.survey.viewmodel.AddSurveyViewModel;
 
 import java.util.Calendar;
 
-public class CreateFormActivity extends AppCompatActivity {
+public class CreateFormActivity extends AppCompatActivity
+        implements OnDeleteDialogFragment.OnDeleteClickListener {
 
     private EditText title;
 
@@ -34,6 +35,8 @@ public class CreateFormActivity extends AppCompatActivity {
     private LinearLayout QuestionListLinearLayout;
 
     private AddSurveyViewModel viewModel;
+
+    private View deletedView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,23 +118,26 @@ public class CreateFormActivity extends AppCompatActivity {
     }
 
     public void onDeleteQuestion(final View v) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.form_dialog)
-                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {}
-                })
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // get the parent Cardview and its parent LinearLayout
-                        ViewGroup parentCardView = (ViewGroup)(v.getParent()).getParent();
-                        ViewGroup parentLinearLayout = (ViewGroup)parentCardView.getParent();
-
-                        // delete the parentCardview
-                        parentLinearLayout.removeView((View)parentCardView);
-                    }
-                });
-        builder.show();
+        deletedView = v;
+        showDialog();
     }
+
+    public void onDeleteClick() {
+        // get the parent Cardview and its parent LinearLayout
+        ViewGroup parentCardView = (ViewGroup)(deletedView.getParent()).getParent();
+        ViewGroup parentLinearLayout = (ViewGroup)parentCardView.getParent();
+
+        // delete the parentCardview
+        parentLinearLayout.removeView((View)parentCardView);
+    }
+
+    void showDialog() {
+        DialogFragment newFragment = OnDeleteDialogFragment.newInstance(
+                R.string.form_dialog, R.string.yes, R.string.no
+        );
+        newFragment.show(getSupportFragmentManager(), "dialog");
+    }
+
 
     public void onAddOption(View v) {
         // get the parent CardView

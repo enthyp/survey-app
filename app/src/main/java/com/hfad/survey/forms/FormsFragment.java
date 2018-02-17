@@ -3,14 +3,13 @@ package com.hfad.survey.forms;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +26,7 @@ import com.hfad.survey.R;
 import com.hfad.survey.ViewModelFactory;
 import com.hfad.survey.data.db.entity.SurveyEntity;
 import com.hfad.survey.openform.OpenFormActivity;
+import com.hfad.survey.util.OnDeleteDialogFragment;
 import com.hfad.survey.viewmodel.SurveyListViewModel;
 
 import java.util.ArrayList;
@@ -37,6 +37,7 @@ public class FormsFragment extends Fragment implements View.OnClickListener {
     RecyclerView formsRecyclerView;
     FormRecyclerAdapter formsRecyclerViewAdapter;
     SurveyListViewModel viewModel;
+    View deletedView;
 
     public FormsFragment() {
         // Required empty public constructor
@@ -49,7 +50,7 @@ public class FormsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setRetainInstance(true);
     }
 
     @Override
@@ -126,23 +127,8 @@ public class FormsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(final View v) {
         if(v.getId() == R.id.delete_form_button) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle(R.string.form_dialog)
-                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {}
-                    })
-                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            final SurveyEntity surveyEntity = (SurveyEntity)v.getTag();
-                            ((BasicApp)getActivity().getApplication()).getAppExecutors().diskIO().execute(new Runnable() {
-                                @Override
-                                public void run() {
-                                    viewModel.deleteSurvey(surveyEntity);
-                                }
-                            });
-                        }
-                    });
-            builder.show();
+            deletedView = v;
+            showDialog();
         } else if (v.getId() == R.id.open_survey_button) {
             SurveyEntity surveyEntity = (SurveyEntity)v.getTag();
             long id = surveyEntity.getId();
@@ -151,5 +137,22 @@ public class FormsFragment extends Fragment implements View.OnClickListener {
             intent.putExtra("survey_id", id);
             startActivity(intent);
         }
+    }
+
+    public void onDeleteClick() {
+        final SurveyEntity surveyEntity = (SurveyEntity)deletedView.getTag();
+        ((BasicApp)getActivity().getApplication()).getAppExecutors().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                viewModel.deleteSurvey(surveyEntity);
+            }
+        });
+    }
+
+    void showDialog() {
+        DialogFragment newFragment = OnDeleteDialogFragment.newInstance(
+                R.string.form_dialog, R.string.yes, R.string.no
+        );
+        newFragment.show(getChildFragmentManager(), "dialog");
     }
 }

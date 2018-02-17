@@ -12,10 +12,13 @@ import android.view.MenuItem;
 import com.hfad.survey.forms.FormsFragment;
 import com.hfad.survey.results.ResultsFragment;
 import com.hfad.survey.util.ActivityUtil;
+import com.hfad.survey.util.OnDeleteDialogFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        OnDeleteDialogFragment.OnDeleteClickListener {
 
+    public int currentFragmentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,23 +32,40 @@ public class MainActivity extends AppCompatActivity
 
         // Add fragment to the activity if necessary
         if (savedInstanceState == null) {
+            currentFragmentId = R.id.nav_surveys;
             SurveyFragment surveyFragment = SurveyFragment.newInstance();
             ActivityUtil.replaceFragmentInActivity(
                     getSupportFragmentManager(), surveyFragment, R.id.main_content_frame,
-                    Integer.toString(R.id.nav_surveys));
+                    Integer.toString(R.id.nav_surveys), false);
+        } else {
+            currentFragmentId = savedInstanceState.getInt("currentFragmentId");
         }
 
-        // Listen for fragment changes to update Navigation Drawer
+        // Update Navigation Drawer
         final FragmentManager fm = getSupportFragmentManager();
-        fm.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+        fm.addOnBackStackChangedListener(new FragmentManager.
+                OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
                 Fragment fragment = fm.findFragmentById(R.id.main_content_frame);
-                NavigationView navigationView = findViewById(R.id.nav_view);
-                navigationView.setCheckedItem(Integer.parseInt(fragment.getTag()));
+                if (fragment != null) {
+                    currentFragmentId = Integer.parseInt(fragment.getTag());
+                    NavigationView navigationView = findViewById(R.id.nav_view);
+                    navigationView.setCheckedItem(Integer.parseInt(fragment.getTag()));
+                }
             }
         });
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        /* This is necessary - otherwise Back button does not work
+         * for SurveyFragment after device rotation */
+        outState.putInt("currentFragmentId", currentFragmentId);
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -53,7 +73,19 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            FragmentManager fm = getSupportFragmentManager();
+
+            /* From any fragment we go back to Home view (SurveyFragment)
+             * and from Home we exit the application */
+
+            boolean backFromHome = false;
+            if(currentFragmentId == R.id.nav_surveys)
+                backFromHome = true;
+
+            fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+            if(backFromHome)
+                super.onBackPressed();
         }
     }
 
@@ -82,7 +114,8 @@ public class MainActivity extends AppCompatActivity
         try {
             Fragment newFragment = (Fragment)fragmentClass.newInstance();
             ActivityUtil.replaceFragmentInActivity(
-                    getSupportFragmentManager(), newFragment, R.id.main_content_frame, fragmentTag);
+                    getSupportFragmentManager(), newFragment, R.id.main_content_frame,
+                    fragmentTag, true);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -95,5 +128,11 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-
+    public void onDeleteClick() {
+        FormsFragment formsFragment = (FormsFragment) getSupportFragmentManager().findFragmentByTag(
+                Integer.toString(R.id.nav_forms));
+        if (formsFragment != null) {
+            formsFragment.onDeleteClick();
+        }
+    }
 }
